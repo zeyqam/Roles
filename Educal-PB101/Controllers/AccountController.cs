@@ -52,7 +52,7 @@ namespace Educal_PB101.Controllers
                 return View();
             }
 
-            await _signInManager.SignInAsync(user,  false);
+            await _userManager.AddToRoleAsync(user, nameof(Roles.Memmber));
             return RedirectToAction("Index","Home");
         }
         [HttpPost]
@@ -75,17 +75,17 @@ namespace Educal_PB101.Controllers
             {
                 return View();
             }
-            AppUser existUser = await _userManager.FindByEmailAsync(request.EmailorUsername) ?? await _userManager.FindByEmailAsync(request.EmailorUsername);
+            AppUser existUser = await _userManager.FindByEmailAsync(request.EmailorUsername) ?? await _userManager.FindByNameAsync(request.EmailorUsername);
             if (existUser is null)
             {
-                ModelState.AddModelError(string.Empty, "Login failed");
+                ModelState.AddModelError(string.Empty, "User not found");
                 return View();
             }
 
             var result = await _signInManager.PasswordSignInAsync(existUser, request.Password, false, false);
             if (!result.Succeeded)
             {
-                ModelState.AddModelError(string.Empty, "Login failed");
+                ModelState.AddModelError(string.Empty, "Invalid Password");
                 return View();
             }
             return RedirectToAction("Index", "Home");

@@ -2,11 +2,13 @@
 using Educal_PB101.Models;
 using Educal_PB101.Services.Interfaces;
 using Educal_PB101.ViewModels.Courses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Educal_PB101.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles ="SuperAdmin")]
     public class CourseController : Controller
     {
         private readonly ICategoryService _categoryService;

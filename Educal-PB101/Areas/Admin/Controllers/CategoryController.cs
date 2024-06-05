@@ -3,6 +3,7 @@ using Educal_PB101.Helpers.Extensions;
 using Educal_PB101.Models;
 using Educal_PB101.Services.Interfaces;
 using Educal_PB101.ViewModels.Categories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing;
@@ -10,6 +11,7 @@ using System.Drawing;
 namespace Educal_PB101.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles ="SuperAdmin")]
     public class CategoryController : Controller
     {
         public readonly AppDbContext _context;
@@ -22,13 +24,14 @@ namespace Educal_PB101.Areas.Admin.Controllers
             _env = env;
 
         }
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> Index()
         {
             var categories = await _context.Categories.ToListAsync();
             return View(categories);
         }
         [HttpGet]
-
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult Create()
         {
             return View();

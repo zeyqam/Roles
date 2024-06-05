@@ -127,6 +127,10 @@
                                                 </form>
 
                                             </li>
+                                            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                                            {
+                                                <li class=""><a class="px-1" asp-area="Admin" asp-controller="dashboard" asp-action="Index"> Go to Admin</a></li>
+                                            }
                                         }
                                         else
                                         {
